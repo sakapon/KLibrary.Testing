@@ -1,7 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <AssemblyName>KLibrary.Testing</AssemblyName>
+    <RootNamespace>KLibrary</RootNamespace>
+    <Version>4.0.0</Version>
+    <Title>KLibrary.Testing</Title>
+    <AssemblyTitle>KLibrary.Testing</AssemblyTitle>
+    <Product>KLibrary</Product>
+    <Description>A library for unit testing.</Description>
+    <Authors>Keiho Sakapon</Authors>
+    <Copyright>© 2020 Keiho Sakapon</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/sakapon/KLibrary.Testing</PackageProjectUrl>
+    <PackageTags>Unit Testing</PackageTags>
+    <PackageReleaseNotes>The first release.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>bin\Release\KLibrary.Testing.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
