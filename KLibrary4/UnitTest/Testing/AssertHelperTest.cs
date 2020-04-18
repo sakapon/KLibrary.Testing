@@ -17,17 +17,20 @@ namespace UnitTest.Testing
 			// 1/9 = 0.1111...
 			var expected = 1.0 / 9;
 			var actual = D9(20);
-			Assert.ThrowsException<AssertFailedException>(() => Assert.AreEqual(expected, actual));
+			var ex = Assert.ThrowsException<AssertFailedException>(() => Assert.AreEqual(expected, actual));
+			Console.WriteLine(ex.Message);
 			AssertHelper.AreNearlyEqual(expected, actual);
 
 			// 0.1
 			var actual1 = D9(1);
-			Assert.ThrowsException<AssertFailedException>(() => AssertHelper.AreNearlyEqual(expected, actual1, 2));
+			var ex1 = Assert.ThrowsException<AssertFailedException>(() => AssertHelper.AreNearlyEqual(expected, actual1, 2));
+			Console.WriteLine(ex1.Message);
 			AssertHelper.AreNearlyEqual(expected, actual1, 1);
 
 			// 0.11
 			var actual2 = D9(2);
-			Assert.ThrowsException<AssertFailedException>(() => AssertHelper.AreNearlyEqual(expected, actual2, 3));
+			var ex2 = Assert.ThrowsException<AssertFailedException>(() => AssertHelper.AreNearlyEqual(expected, actual2, 3));
+			Console.WriteLine(ex2.Message);
 			AssertHelper.AreNearlyEqual(expected, actual2, 2);
 		}
 	}

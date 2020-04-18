@@ -3,10 +3,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KLibrary.Testing
 {
+	/// <summary>
+	/// Provides a set of methods to extend the <see cref="Assert"/> class.
+	/// </summary>
 	public static class AssertHelper
 	{
-		public static void AreNearlyEqual(double expected, double actual, int digits = 12) =>
-			Assert.AreEqual(0.0, Math.Round(expected - actual, digits));
+		public static void AreNearlyEqual(double expected, double actual, int digits = 12)
+		{
+			if (Math.Round(expected - actual, digits) != 0)
+				throw new AssertFailedException($"AreNearlyEqual failed. expected - actual:<{expected - actual}>.");
+		}
 
 		public static Action<T, TResult> Create<T, TResult>(Func<T, TResult> target) =>
 			(arg, expected) => Assert.AreEqual(expected, target(arg));
