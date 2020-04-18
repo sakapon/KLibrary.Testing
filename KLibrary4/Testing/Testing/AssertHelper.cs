@@ -5,6 +5,9 @@ namespace KLibrary.Testing
 {
 	public static class AssertHelper
 	{
+		public static void AreNearlyEqual(double expected, double actual, int digits = 12) =>
+			Assert.AreEqual(0.0, Math.Round(expected - actual, digits));
+
 		public static Action<T, TResult> Create<T, TResult>(Func<T, TResult> target) =>
 			(arg, expected) => Assert.AreEqual(expected, target(arg));
 
