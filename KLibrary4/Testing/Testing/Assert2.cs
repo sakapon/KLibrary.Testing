@@ -10,17 +10,20 @@ namespace KLibrary.Testing
 	{
 		public static void AreNearlyEqual(float expected, float actual, int digits = 6)
 		{
-			throw new NotImplementedException();
+			if (Math.Abs(expected - actual) > Math.Pow(0.1, digits))
+				throw new AssertFailedException($"AreNearlyEqual failed. | expected - actual |:<{Math.Abs(expected - actual)}>.");
 		}
 
 		public static void AreNearlyEqual(double expected, double actual, int digits = 12)
 		{
-			throw new NotImplementedException();
+			if (Math.Abs(expected - actual) > Math.Pow(0.1, digits))
+				throw new AssertFailedException($"AreNearlyEqual failed. | expected - actual |:<{Math.Abs(expected - actual)}>.");
 		}
 
 		public static void AreNearlyEqual(decimal expected, decimal actual, int digits = 12)
 		{
-			throw new NotImplementedException();
+			if (Math.Abs(expected - actual) > (decimal)Math.Pow(0.1, digits))
+				throw new AssertFailedException($"AreNearlyEqual failed. | expected - actual |:<{Math.Abs(expected - actual)}>.");
 		}
 
 		public static void IsOfType<T>(object obj)
