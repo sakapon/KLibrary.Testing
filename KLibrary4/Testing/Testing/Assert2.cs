@@ -10,14 +10,12 @@ namespace KLibrary.Testing
 	{
 		public static void AreNearlyEqual(float expected, float actual, int digits = 6)
 		{
-			if (Math.Abs(expected - actual) > Math.Pow(0.1, digits))
-				throw new AssertFailedException($"AreNearlyEqual failed. | expected - actual |:<{Math.Abs(expected - actual)}>.");
+			AreNearlyEqual((decimal)expected, (decimal)actual, digits);
 		}
 
 		public static void AreNearlyEqual(double expected, double actual, int digits = 12)
 		{
-			if (Math.Abs(expected - actual) > Math.Pow(0.1, digits))
-				throw new AssertFailedException($"AreNearlyEqual failed. | expected - actual |:<{Math.Abs(expected - actual)}>.");
+			AreNearlyEqual((decimal)expected, (decimal)actual, digits);
 		}
 
 		public static void AreNearlyEqual(decimal expected, decimal actual, int digits = 12)

@@ -10,6 +10,24 @@ namespace UnitTest.Testing
 	public class Assert2Test
 	{
 		[TestMethod]
+		public void Pow_Double()
+		{
+			for (int d = -20; d <= 30; d++)
+				Console.WriteLine(Math.Pow(0.1, d));
+
+			Assert.Inconclusive("See the output and check precision.");
+		}
+
+		[TestMethod]
+		public void Pow_Decimal()
+		{
+			for (int d = -20; d <= 30; d++)
+				Console.WriteLine((decimal)Math.Pow(0.1, d));
+
+			Assert.Inconclusive("See the output and check precision.");
+		}
+
+		[TestMethod]
 		public void AreNearlyEqual_Double()
 		{
 			// 10^-12
@@ -35,6 +53,33 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
+		public void AreNearlyEqual_Decimal()
+		{
+			var target = 43.21M;
+
+			// 10^-12
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.2099999999989M)).Message);
+			Assert2.AreNearlyEqual(target, 43.209999999999M);
+			Assert2.AreNearlyEqual(target, 43.21M);
+			Assert2.AreNearlyEqual(target, 43.210000000001M);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.2100000000011M)).Message);
+
+			// 10^-1
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.1099M, 1)).Message);
+			Assert2.AreNearlyEqual(target, 43.11M, 1);
+			Assert2.AreNearlyEqual(target, 43.215M, 1);
+			Assert2.AreNearlyEqual(target, 43.31M, 1);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.3101M, 1)).Message);
+
+			// 10^0
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 42.2099M, 0)).Message);
+			Assert2.AreNearlyEqual(target, 42.21M, 0);
+			Assert2.AreNearlyEqual(target, 43.215M, 0);
+			Assert2.AreNearlyEqual(target, 44.21M, 0);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 44.2101M, 0)).Message);
+		}
+
+		[TestMethod]
 		public void AreNearlyEqual_Double_9()
 		{
 			double D9(int digits) => Enumerable.Range(1, digits).Sum(i => Math.Pow(0.1, i));
@@ -44,7 +89,11 @@ namespace UnitTest.Testing
 			var actual = D9(20);
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert.AreEqual(expected, actual)).Message);
 			Assert2.AreNearlyEqual(expected, actual);
-			Assert2.AreNearlyEqual(expected, actual, 15);
+			Assert2.AreNearlyEqual(expected, actual, 30);
+
+			var actual12 = D9(12);
+			Assert2.AreNearlyEqual(expected, actual12);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(expected, actual12, 13)).Message);
 		}
 
 		[TestMethod]
