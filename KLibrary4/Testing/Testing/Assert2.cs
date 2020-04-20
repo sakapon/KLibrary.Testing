@@ -35,7 +35,21 @@ namespace KLibrary.Testing
 
 		public static T Throws<T>(Action action) where T : Exception
 		{
-			throw new NotImplementedException();
+			if (action == null) throw new ArgumentNullException(nameof(action));
+
+			try
+			{
+				action();
+			}
+			catch (T tex)
+			{
+				return tex;
+			}
+			catch (Exception ex)
+			{
+				throw new AssertFailedException($"{ex.GetType()} thrown, but {typeof(T)} was expected.", ex);
+			}
+			throw new AssertFailedException($"No exception thrown. {typeof(T)} was expected.");
 		}
 	}
 }
