@@ -96,6 +96,18 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
+		public void AreNearlyEqual_Special()
+		{
+			var pi = Math.Sqrt(12) * Enumerable.Range(0, 40).Sum(i => 1 / ((2 * i + 1) * Math.Pow(-3, i)));
+			// They are equal in the decimal.
+			Assert2.AreNearlyEqual(Math.PI, pi, -30);
+
+			var e = Math.Pow(1.00000001, 100000000);
+			Assert2.AreNearlyEqual(Math.E, e, -7);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(Math.E, e, -8)).Message);
+		}
+
+		[TestMethod]
 		public void IsOfType()
 		{
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.IsOfType<object>(null)).Message);
