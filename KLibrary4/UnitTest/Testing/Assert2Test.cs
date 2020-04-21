@@ -40,11 +40,11 @@ namespace UnitTest.Testing
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.2100000000011)).Message);
 
 			// 10^-1
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.1099, 1)).Message);
-			Assert2.AreNearlyEqual(43.21, 43.11, 1);
-			Assert2.AreNearlyEqual(43.21, 43.215, 1);
-			Assert2.AreNearlyEqual(43.21, 43.31, 1);
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.3101, 1)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.1099, -1)).Message);
+			Assert2.AreNearlyEqual(43.21, 43.11, -1);
+			Assert2.AreNearlyEqual(43.21, 43.215, -1);
+			Assert2.AreNearlyEqual(43.21, 43.31, -1);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.3101, -1)).Message);
 
 			// 10^0
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 42.2099, 0)).Message);
@@ -67,11 +67,11 @@ namespace UnitTest.Testing
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.2100000000011M)).Message);
 
 			// 10^-1
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.1099M, 1)).Message);
-			Assert2.AreNearlyEqual(target, 43.11M, 1);
-			Assert2.AreNearlyEqual(target, 43.215M, 1);
-			Assert2.AreNearlyEqual(target, 43.31M, 1);
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.3101M, 1)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.1099M, -1)).Message);
+			Assert2.AreNearlyEqual(target, 43.11M, -1);
+			Assert2.AreNearlyEqual(target, 43.215M, -1);
+			Assert2.AreNearlyEqual(target, 43.31M, -1);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 43.3101M, -1)).Message);
 
 			// 10^0
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, 42.2099M, 0)).Message);
