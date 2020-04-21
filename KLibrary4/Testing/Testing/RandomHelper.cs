@@ -13,21 +13,6 @@ namespace KLibrary.Testing
 		public static double NextDouble(double minValue, double maxValue) =>
 			minValue + (maxValue - minValue) * Random.NextDouble();
 
-		public static IEnumerable<TSource> Shuffle<TSource>(this IEnumerable<TSource> source)
-		{
-			if (source == null) throw new ArgumentNullException(nameof(source));
-
-			var a = source.ToArray();
-			for (var i = a.Length - 1; i >= 0; --i)
-			{
-				var index = Random.Next(i + 1);
-				yield return a[index];
-				Swap(a, i, index);
-			}
-		}
-
-		public static int[] ShuffleRange(int start, int count) => Enumerable.Range(start, count).Shuffle().ToArray();
-
 		public static int[] CreateData(int count) => CreateData(count, 0, count);
 		public static int[] CreateData(int count, int minValue, int maxValue)
 		{
@@ -44,5 +29,20 @@ namespace KLibrary.Testing
 				a[i] = NextDouble(minValue, maxValue);
 			return a;
 		}
+
+		public static IEnumerable<TSource> Shuffle<TSource>(this IEnumerable<TSource> source)
+		{
+			if (source == null) throw new ArgumentNullException(nameof(source));
+
+			var a = source.ToArray();
+			for (var i = a.Length - 1; i >= 0; --i)
+			{
+				var index = Random.Next(i + 1);
+				yield return a[index];
+				Swap(a, i, index);
+			}
+		}
+
+		public static int[] ShuffleRange(int start, int count) => Enumerable.Range(start, count).Shuffle().ToArray();
 	}
 }
