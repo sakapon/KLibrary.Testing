@@ -32,26 +32,23 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void AreNearlyEqual_Double()
 		{
-			// 10^-12
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.2099999999989)).Message);
-			Assert2.AreNearlyEqual(43.21, 43.209999999999);
-			Assert2.AreNearlyEqual(43.21, 43.21);
-			Assert2.AreNearlyEqual(43.21, 43.210000000001);
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.2100000000011)).Message);
+			var target = 43.21;
+			var values6 = new[] { 43.2099989, 43.209999, 43.21, 43.210001, 43.2100011 };
+			var values1 = new[] { 43.1099, 43.11, 43.215, 43.31, 43.3101 };
+			var values0 = new[] { 42.2099, 42.21, 43.215, 44.21, 44.2101 };
 
-			// 10^-1
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.1099, -1)).Message);
-			Assert2.AreNearlyEqual(43.21, 43.11, -1);
-			Assert2.AreNearlyEqual(43.21, 43.215, -1);
-			Assert2.AreNearlyEqual(43.21, 43.31, -1);
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 43.3101, -1)).Message);
+			BoundaryTest(values6, -6); // 10^-6
+			BoundaryTest(values1, -1); // 10^-1
+			BoundaryTest(values0, 0); // 10^0
 
-			// 10^0
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 42.2099, 0)).Message);
-			Assert2.AreNearlyEqual(43.21, 42.21, 0);
-			Assert2.AreNearlyEqual(43.21, 43.215, 0);
-			Assert2.AreNearlyEqual(43.21, 44.21, 0);
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(43.21, 44.2101, 0)).Message);
+			void BoundaryTest(double[] values, int digits)
+			{
+				Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, values[0], digits)).Message);
+				Assert2.AreNearlyEqual(target, values[1], digits);
+				Assert2.AreNearlyEqual(target, values[2], digits);
+				Assert2.AreNearlyEqual(target, values[3], digits);
+				Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(target, values[4], digits)).Message);
+			}
 		}
 
 		[TestMethod]
