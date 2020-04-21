@@ -11,11 +11,17 @@ namespace KLibrary.Testing
 		// absolute error.
 		public static void AreNearlyEqual(float expected, float actual, int digits = -6)
 		{
+			if (float.IsNaN(expected) || float.IsInfinity(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "<expected> is not a finite value.");
+			if (float.IsNaN(actual) || float.IsInfinity(actual)) throw new AssertFailedException("AreNearlyEqual failed. <actual> is not a finite value.");
+
 			AreNearlyEqual((decimal)expected, (decimal)actual, digits);
 		}
 
 		public static void AreNearlyEqual(double expected, double actual, int digits = -12)
 		{
+			if (double.IsNaN(expected) || double.IsInfinity(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "<expected> is not a finite value.");
+			if (double.IsNaN(actual) || double.IsInfinity(actual)) throw new AssertFailedException("AreNearlyEqual failed. <actual> is not a finite value.");
+
 			AreNearlyEqual((decimal)expected, (decimal)actual, digits);
 		}
 

@@ -30,6 +30,30 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
+		public void AreNearlyEqual_Single_NaN()
+		{
+			var values = new[] { float.NaN, float.NegativeInfinity, float.PositiveInfinity };
+			foreach (var v in values)
+			{
+				Console.WriteLine(Assert.ThrowsException<ArgumentOutOfRangeException>(() => Assert2.AreNearlyEqual(v, 0)).Message);
+				Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(0, v)).Message);
+				Console.WriteLine();
+			}
+		}
+
+		[TestMethod]
+		public void AreNearlyEqual_Double_NaN()
+		{
+			var values = new[] { double.NaN, double.NegativeInfinity, double.PositiveInfinity };
+			foreach (var v in values)
+			{
+				Console.WriteLine(Assert.ThrowsException<ArgumentOutOfRangeException>(() => Assert2.AreNearlyEqual(v, 0)).Message);
+				Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(0, v)).Message);
+				Console.WriteLine();
+			}
+		}
+
+		[TestMethod]
 		public void AreNearlyEqual_Double()
 		{
 			// The test can be for other value types by casting.
