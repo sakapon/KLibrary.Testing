@@ -8,6 +8,7 @@ namespace KLibrary.Testing
 	/// </summary>
 	public static class Assert2
 	{
+		// absolute error.
 		public static void AreNearlyEqual(float expected, float actual, int digits = -6)
 		{
 			AreNearlyEqual((decimal)expected, (decimal)actual, digits);
