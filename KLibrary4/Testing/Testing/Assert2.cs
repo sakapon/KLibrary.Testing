@@ -8,20 +8,21 @@ namespace KLibrary.Testing
 	/// </summary>
 	public static class Assert2
 	{
-		public static void AreNearlyEqual(float expected, float actual, int digits = 6)
+		public static void AreNearlyEqual(float expected, float actual, int digits = -6)
 		{
 			AreNearlyEqual((decimal)expected, (decimal)actual, digits);
 		}
 
-		public static void AreNearlyEqual(double expected, double actual, int digits = 12)
+		public static void AreNearlyEqual(double expected, double actual, int digits = -12)
 		{
 			AreNearlyEqual((decimal)expected, (decimal)actual, digits);
 		}
 
-		public static void AreNearlyEqual(decimal expected, decimal actual, int digits = 12)
+		public static void AreNearlyEqual(decimal expected, decimal actual, int digits = -12)
 		{
-			if (Math.Abs(expected - actual) > (decimal)Math.Pow(0.1, digits))
-				throw new AssertFailedException($"AreNearlyEqual failed. | expected - actual |:<{Math.Abs(expected - actual)}>.");
+			var delta = Math.Abs(expected - actual);
+			if (delta > decimal.Parse(digits < 0 ? $"0.{new string('0', -digits - 1)}1" : $"1{new string('0', digits)}"))
+				throw new AssertFailedException($"AreNearlyEqual failed. | expected - actual |:<{delta}>.");
 		}
 
 		public static void IsOfType<T>(object obj)

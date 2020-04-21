@@ -12,8 +12,8 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void Pow_Double()
 		{
-			for (int d = -20; d <= 30; d++)
-				Console.WriteLine(Math.Pow(0.1, d));
+			for (int d = -60; d <= 60; d++)
+				Console.WriteLine(double.Parse(d < 0 ? $"0.{new string('0', -d - 1)}1" : $"1{new string('0', d)}"));
 
 			Assert.Inconclusive("See the output and check precision.");
 		}
@@ -21,9 +21,11 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void Pow_Decimal()
 		{
-			for (int d = -20; d <= 30; d++)
-				Console.WriteLine((decimal)Math.Pow(0.1, d));
+			for (int d = -30; d <= 28; d++)
+				Console.WriteLine(decimal.Parse(d < 0 ? $"0.{new string('0', -d - 1)}1" : $"1{new string('0', d)}"));
 
+			Assert.AreNotEqual(0M, decimal.Parse($"0.{new string('0', 27)}1"));
+			Assert.AreEqual(0M, decimal.Parse($"0.{new string('0', 28)}1"));
 			Assert.Inconclusive("See the output and check precision.");
 		}
 
@@ -82,6 +84,7 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void AreNearlyEqual_Double_9()
 		{
+			// A calculation with error.
 			double D9(int digits) => Enumerable.Range(1, digits).Sum(i => Math.Pow(0.1, i));
 
 			// 1/9 = 0.1111...
@@ -89,11 +92,12 @@ namespace UnitTest.Testing
 			var actual = D9(20);
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert.AreEqual(expected, actual)).Message);
 			Assert2.AreNearlyEqual(expected, actual);
-			Assert2.AreNearlyEqual(expected, actual, 30);
+			// They are equal in the decimal.
+			Assert2.AreNearlyEqual(expected, actual, -30);
 
 			var actual12 = D9(12);
 			Assert2.AreNearlyEqual(expected, actual12);
-			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(expected, actual12, 13)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(expected, actual12, -13)).Message);
 		}
 
 		[TestMethod]
