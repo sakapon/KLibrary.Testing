@@ -31,10 +31,10 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void CreateAreEqual_Delegate_10()
 		{
-			int Get123() => 123;
+			(int, double) GetTuple() => (2, 3);
 
-			var test = TestHelper.CreateAreEqual((Func<int>)Get123);
-			test(null, 123);
+			var test = TestHelper.CreateAreEqual((Func<(int, double)>)GetTuple);
+			test(null, (2, 3.0));
 		}
 
 		[TestMethod]
@@ -45,6 +45,7 @@ namespace UnitTest.Testing
 			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreEqual(null));
 
 			var test = TestHelper.CreateAreEqual((Func<string, char, int, int, int>)IndexOf);
+			Assert.ThrowsException<ArgumentException>(() => test(new object[] { "abcde", "", 0, 0 }, null));
 			Assert.ThrowsException<AssertFailedException>(() => test(new object[] { "abcde", 'c', 3, 2 }, 2));
 
 			Assert.ThrowsException<ArgumentNullException>(() => test(new object[] { null, 'c', 0, 0 }, null));

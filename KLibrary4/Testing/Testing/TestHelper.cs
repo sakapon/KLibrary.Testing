@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KLibrary.Testing
@@ -29,7 +30,17 @@ namespace KLibrary.Testing
 		public static Action<object[], object> CreateAreEqual(Delegate target)
 		{
 			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (args, expected) => Assert.AreEqual(expected, target.DynamicInvoke(args));
+			return (args, expected) =>
+			{
+				try
+				{
+					Assert.AreEqual(expected, target.DynamicInvoke(args));
+				}
+				catch (TargetInvocationException ex)
+				{
+					throw ex.InnerException;
+				}
+			};
 		}
 
 		public static Action<T, TResult> CreateForNearlyEqual<T, TResult>(Func<T, TResult> target)
