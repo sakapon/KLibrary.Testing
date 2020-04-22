@@ -37,7 +37,11 @@ namespace KLibrary.Testing
 			{
 				try
 				{
-					Assert.AreEqual(expected, target.DynamicInvoke(args));
+					var actual = target.DynamicInvoke(args);
+					if (expected is IEnumerable e && actual is IEnumerable a)
+						CollectionAssert.AreEqual(e.AsCollection(), a.AsCollection());
+					else
+						Assert.AreEqual(expected, actual);
 				}
 				catch (TargetInvocationException ex)
 				{
@@ -64,6 +68,7 @@ namespace KLibrary.Testing
 			return (arg, expected) => CollectionAssert.AreEqual(expected.AsCollection(), target(arg).AsCollection());
 		}
 
+		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source.Cast<object>().ToArray();
 		static ICollection AsCollection<T>(this IEnumerable<T> source) => source is ICollection c ? c : source?.ToArray();
 	}
 }

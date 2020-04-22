@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KLibrary.Testing;
@@ -51,6 +52,21 @@ namespace UnitTest.Testing
 			Assert.ThrowsException<ArgumentNullException>(() => test(new object[] { null, 'c', 0, 0 }, null));
 			test(new object[] { "abcde", 'c', 0, 5 }, 2);
 			test(new object[] { "abcde", 'c', 3, 2 }, -1);
+		}
+
+		[TestMethod]
+		public void CreateAreEqual_Delegate_Collection()
+		{
+			IEnumerable GetData()
+			{
+				yield return 1;
+				yield return 2;
+			}
+
+			var test = TestHelper.CreateAreEqual((Func<IEnumerable>)GetData);
+			Assert.ThrowsException<AssertFailedException>(() => test(null, 0));
+			Assert.ThrowsException<AssertFailedException>(() => test(null, new[] { 0, 1, 2 }));
+			test(null, new[] { 1, 2 });
 		}
 
 		[TestMethod]
