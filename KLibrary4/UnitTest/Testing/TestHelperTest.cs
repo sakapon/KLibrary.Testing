@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTest.Testing
 {
 	[TestClass]
-	public class AssertHelperTest
+	public class TestHelperTest
 	{
 		[TestMethod]
 		public void Create()

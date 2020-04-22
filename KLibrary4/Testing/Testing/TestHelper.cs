@@ -4,9 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace KLibrary.Testing
 {
 	/// <summary>
-	/// Provides a set of methods to extend the <see cref="Assert"/> class.
+	/// Provides a set of helper methods for test methods.
 	/// </summary>
-	public static class AssertHelper
+	public static class TestHelper
 	{
 		public static Action<T, TResult> Create<T, TResult>(Func<T, TResult> target) =>
 			(arg, expected) => Assert.AreEqual(expected, target(arg));
