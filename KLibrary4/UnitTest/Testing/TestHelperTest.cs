@@ -52,5 +52,17 @@ namespace UnitTest.Testing
 			test(new object[] { "abcde", 'c', 0, 5 }, 2);
 			test(new object[] { "abcde", 'c', 3, 2 }, -1);
 		}
+
+		[TestMethod]
+		public void CreateCollectionsAreEqual_Func_1()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateCollectionsAreEqual<int, double>(null));
+
+			var test = TestHelper.CreateCollectionsAreEqual<int, int>(count => Enumerable.Range(1, count));
+			Assert.ThrowsException<AssertFailedException>(() => test(3, new[] { 0, 1, 2 }));
+
+			Assert.ThrowsException<ArgumentOutOfRangeException>(() => test(-1, null));
+			test(3, new[] { 1, 2, 3 });
+		}
 	}
 }

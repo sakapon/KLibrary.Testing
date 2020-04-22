@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -55,7 +58,12 @@ namespace KLibrary.Testing
 				throw new InvalidOperationException("<TResult> is invalid.");
 		}
 
-		public static Action<T, TResult[]> CreateForCollection<T, TResult>(Func<T, TResult[]> target) =>
-			(arg, expected) => CollectionAssert.AreEqual(expected, target(arg));
+		public static Action<T, IEnumerable<TResult>> CreateCollectionsAreEqual<T, TResult>(Func<T, IEnumerable<TResult>> target)
+		{
+			if (target == null) throw new ArgumentNullException(nameof(target));
+			return (arg, expected) => CollectionAssert.AreEqual(expected.AsCollection(), target(arg).AsCollection());
+		}
+
+		static ICollection AsCollection<T>(this IEnumerable<T> source) => source is ICollection c ? c : source?.ToArray();
 	}
 }
