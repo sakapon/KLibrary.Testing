@@ -26,9 +26,9 @@ namespace UnitTest.Testing
 			var set = Enumerable.Range(-10, 30).ToHashSet();
 			var actual = RandomHelper.ShuffleRange(-10, 30);
 
-			Assert.IsTrue(set.SetEquals(actual));
 			foreach (var v in actual)
 				Console.WriteLine(v);
+			Assert.IsTrue(set.SetEquals(actual));
 		}
 	}
 }

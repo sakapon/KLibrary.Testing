@@ -17,6 +17,12 @@ namespace KLibrary.Testing
 		public static Action<T1, T2, T3, TResult> Create<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> target) =>
 			(arg1, arg2, arg3, expected) => Assert.AreEqual(expected, target(arg1, arg2, arg3));
 
+		public static Action<object[], object> CreateAreEqual(Delegate target)
+		{
+			if (target == null) throw new ArgumentNullException(nameof(target));
+			return (args, expected) => Assert.AreEqual(expected, target.DynamicInvoke(args));
+		}
+
 		public static Action<T, TResult> CreateForNearlyEqual<T, TResult>(Func<T, TResult> target)
 		{
 			if (typeof(TResult) == typeof(float))
