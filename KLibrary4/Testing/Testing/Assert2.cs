@@ -20,6 +20,18 @@ namespace KLibrary.Testing
 
 		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source?.Cast<object>()?.ToArray();
 
+		public static void AreNearlyEqual<T>(T expected, T actual, int digits = -12)
+		{
+			if (expected is float ef && actual is float af)
+				AreNearlyEqual(ef, af, digits);
+			else if (expected is double ed && actual is double ad)
+				AreNearlyEqual(ed, ad, digits);
+			else if (expected is decimal em && actual is decimal am)
+				AreNearlyEqual(em, am, digits);
+			else
+				throw new AssertFailedException("The types are invalid.");
+		}
+
 		// absolute error.
 		public static void AreNearlyEqual(float expected, float actual, int digits = -6)
 		{

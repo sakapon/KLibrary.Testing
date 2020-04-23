@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KLibrary.Testing
 {
@@ -12,25 +11,25 @@ namespace KLibrary.Testing
 		public static Action<object[], object> CreateAreEqual(Delegate target)
 		{
 			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (args, expected) => Assert.AreEqual(expected, target.Invoke(args));
+			return (args, expected) => Assert2.AreEqual(expected, target.Invoke(args));
 		}
 
 		public static Action<T, TResult> CreateAreEqual<T, TResult>(Func<T, TResult> target)
 		{
 			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg, expected) => Assert.AreEqual(expected, target(arg));
+			return (arg, expected) => Assert2.AreEqual(expected, target(arg));
 		}
 
 		public static Action<T1, T2, TResult> CreateAreEqual<T1, T2, TResult>(Func<T1, T2, TResult> target)
 		{
 			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg1, arg2, expected) => Assert.AreEqual(expected, target(arg1, arg2));
+			return (arg1, arg2, expected) => Assert2.AreEqual(expected, target(arg1, arg2));
 		}
 
 		public static Action<T1, T2, T3, TResult> CreateAreEqual<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> target)
 		{
 			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg1, arg2, arg3, expected) => Assert.AreEqual(expected, target(arg1, arg2, arg3));
+			return (arg1, arg2, arg3, expected) => Assert2.AreEqual(expected, target(arg1, arg2, arg3));
 		}
 
 		public static Action<T, TResult> CreateForNearlyEqual<T, TResult>(Func<T, TResult> target)
