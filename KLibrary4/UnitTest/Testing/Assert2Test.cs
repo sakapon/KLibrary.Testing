@@ -9,6 +9,33 @@ namespace UnitTest.Testing
 	[TestClass]
 	public class Assert2Test
 	{
+		struct Assert2Struct
+		{
+			public int X;
+			public double Y;
+		}
+
+		[TestMethod]
+		public void AreEqual()
+		{
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreEqual(123, 456)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreEqual(new[] { 0, 1 }, new[] { 1, 2 })).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreEqual("", null)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreEqual(null, Enumerable.Range(1, 10))).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreEqual<object>(123, 123D)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreEqual<object>(new[] { 123 }, new[] { 123D })).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreEqual<object>(0, Enumerable.Range(1, 10))).Message);
+			Assert2.AreEqual<Uri>(null, null);
+			Assert2.AreEqual<int[]>(null, null);
+			Assert2.AreEqual(123, 123);
+			Assert2.AreEqual<object>(123, 123);
+			Assert2.AreEqual<object>(new int[0], new double[0]);
+			Assert2.AreEqual(new[] { 1, 2, 3 }, Enumerable.Range(1, 3));
+			Assert2.AreEqual<object>(new[] { 1, 2, 3 }, Enumerable.Range(1, 3));
+			Assert2.AreEqual((2, new DateTime(2000, 1, 24)), (2, new DateTime(2000, 1, 23).AddDays(1)));
+			Assert2.AreEqual(new Assert2Struct { X = 123, Y = 45.6 }, new Assert2Struct { X = 123, Y = 45.6 });
+		}
+
 		[TestMethod]
 		public void Pow_Double()
 		{
