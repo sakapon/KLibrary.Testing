@@ -37,6 +37,23 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
+		public void AreNearlyEqual_Generic()
+		{
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual<Uri>(null, null)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual("", null)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual(123, 123)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual<object>(123F, 123D)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual<object>(123M, 123D)).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual<object>(new[] { 123 }, new[] { 123D })).Message);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual<object>(null, 0)).Message);
+			Assert2.AreNearlyEqual(12.34F, 12.3F, -1);
+			Assert2.AreNearlyEqual(123, 123D);
+			Assert2.AreNearlyEqual(123M, 123M);
+			Assert2.AreNearlyEqual<object>(Math.PI, 3.14, -2);
+			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert2.AreNearlyEqual<object>(Math.PI, 3.14, -3)).Message);
+		}
+
+		[TestMethod]
 		public void Pow_Double()
 		{
 			for (int d = -60; d <= 60; d++)
