@@ -35,18 +35,11 @@ namespace KLibrary.Testing
 			if (target == null) throw new ArgumentNullException(nameof(target));
 			return (args, expected) =>
 			{
-				try
-				{
-					var actual = target.DynamicInvoke(args);
-					if (expected is IEnumerable e && actual is IEnumerable a)
-						CollectionAssert.AreEqual(e.AsCollection(), a.AsCollection());
-					else
-						Assert.AreEqual(expected, actual);
-				}
-				catch (TargetInvocationException ex)
-				{
-					throw ex.InnerException;
-				}
+				var actual = target.Invoke(args);
+				if (expected is IEnumerable e && actual is IEnumerable a)
+					CollectionAssert.AreEqual(e.AsCollection(), a.AsCollection());
+				else
+					Assert.AreEqual(expected, actual);
 			};
 		}
 
@@ -68,7 +61,21 @@ namespace KLibrary.Testing
 			return (arg, expected) => CollectionAssert.AreEqual(expected.AsCollection(), target(arg).AsCollection());
 		}
 
-		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source.Cast<object>().ToArray();
+		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source?.Cast<object>()?.ToArray();
 		static ICollection AsCollection<T>(this IEnumerable<T> source) => source is ICollection c ? c : source?.ToArray();
+
+		/// <exception cref="ArgumentException">The method represented by the delegate is invoked on an object or a class that does not support it.</exception>
+		/// <exception cref="Exception">Any other exception on target invocation.</exception>
+		static object Invoke(this Delegate target, object[] args)
+		{
+			try
+			{
+				return target.DynamicInvoke(args);
+			}
+			catch (TargetInvocationException ex)
+			{
+				throw ex.InnerException;
+			}
+		}
 	}
 }
