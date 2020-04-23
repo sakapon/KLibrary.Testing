@@ -32,16 +32,28 @@ namespace KLibrary.Testing
 			return (arg1, arg2, arg3, expected) => Assert2.AreEqual(expected, target(arg1, arg2, arg3));
 		}
 
-		public static Action<T, TResult> CreateForNearlyEqual<T, TResult>(Func<T, TResult> target)
+		public static Action<object[], object> CreateAreNearlyEqual(Delegate target, int digits = -12)
 		{
-			if (typeof(TResult) == typeof(float))
-				return (arg, expected) => Assert2.AreNearlyEqual((float)(object)expected, (float)(object)target(arg));
-			else if (typeof(TResult) == typeof(double))
-				return (arg, expected) => Assert2.AreNearlyEqual((double)(object)expected, (double)(object)target(arg));
-			else if (typeof(TResult) == typeof(decimal))
-				return (arg, expected) => Assert2.AreNearlyEqual((decimal)(object)expected, (decimal)(object)target(arg));
-			else
-				throw new InvalidOperationException("<TResult> is invalid.");
+			if (target == null) throw new ArgumentNullException(nameof(target));
+			return (args, expected) => Assert2.AreNearlyEqual(expected, target.Invoke(args), digits);
+		}
+
+		public static Action<T, TResult> CreateAreNearlyEqual<T, TResult>(Func<T, TResult> target, int digits = -12)
+		{
+			if (target == null) throw new ArgumentNullException(nameof(target));
+			return (arg, expected) => Assert2.AreNearlyEqual(expected, target(arg), digits);
+		}
+
+		public static Action<T1, T2, TResult> CreateAreNearlyEqual<T1, T2, TResult>(Func<T1, T2, TResult> target, int digits = -12)
+		{
+			if (target == null) throw new ArgumentNullException(nameof(target));
+			return (arg1, arg2, expected) => Assert2.AreNearlyEqual(expected, target(arg1, arg2), digits);
+		}
+
+		public static Action<T1, T2, T3, TResult> CreateAreNearlyEqual<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> target, int digits = -12)
+		{
+			if (target == null) throw new ArgumentNullException(nameof(target));
+			return (arg1, arg2, arg3, expected) => Assert2.AreNearlyEqual(expected, target(arg1, arg2, arg3), digits);
 		}
 
 		/// <exception cref="ArgumentException">The method represented by the delegate is invoked on an object or a class that does not support it.</exception>
