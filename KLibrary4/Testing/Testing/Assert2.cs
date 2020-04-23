@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KLibrary.Testing
@@ -8,6 +10,16 @@ namespace KLibrary.Testing
 	/// </summary>
 	public static class Assert2
 	{
+		public static void AreEqual<T>(T expected, T actual)
+		{
+			if (expected is IEnumerable e && actual is IEnumerable a)
+				CollectionAssert.AreEqual(e.AsCollection(), a.AsCollection());
+			else
+				Assert.AreEqual(expected, actual);
+		}
+
+		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source?.Cast<object>()?.ToArray();
+
 		// absolute error.
 		public static void AreNearlyEqual(float expected, float actual, int digits = -6)
 		{

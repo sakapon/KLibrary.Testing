@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,6 +9,12 @@ namespace KLibrary.Testing
 	/// </summary>
 	public static class TestHelper
 	{
+		public static Action<object[], object> CreateAreEqual(Delegate target)
+		{
+			if (target == null) throw new ArgumentNullException(nameof(target));
+			return (args, expected) => Assert.AreEqual(expected, target.Invoke(args));
+		}
+
 		public static Action<T, TResult> CreateAreEqual<T, TResult>(Func<T, TResult> target)
 		{
 			if (target == null) throw new ArgumentNullException(nameof(target));
@@ -30,19 +33,6 @@ namespace KLibrary.Testing
 			return (arg1, arg2, arg3, expected) => Assert.AreEqual(expected, target(arg1, arg2, arg3));
 		}
 
-		public static Action<object[], object> CreateAreEqual(Delegate target)
-		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (args, expected) =>
-			{
-				var actual = target.Invoke(args);
-				if (expected is IEnumerable e && actual is IEnumerable a)
-					CollectionAssert.AreEqual(e.AsCollection(), a.AsCollection());
-				else
-					Assert.AreEqual(expected, actual);
-			};
-		}
-
 		public static Action<T, TResult> CreateForNearlyEqual<T, TResult>(Func<T, TResult> target)
 		{
 			if (typeof(TResult) == typeof(float))
@@ -54,15 +44,6 @@ namespace KLibrary.Testing
 			else
 				throw new InvalidOperationException("<TResult> is invalid.");
 		}
-
-		public static Action<T, IEnumerable<TResult>> CreateCollectionsAreEqual<T, TResult>(Func<T, IEnumerable<TResult>> target)
-		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg, expected) => CollectionAssert.AreEqual(expected.AsCollection(), target(arg).AsCollection());
-		}
-
-		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source?.Cast<object>()?.ToArray();
-		static ICollection AsCollection<T>(this IEnumerable<T> source) => source is ICollection c ? c : source?.ToArray();
 
 		/// <exception cref="ArgumentException">The method represented by the delegate is invoked on an object or a class that does not support it.</exception>
 		/// <exception cref="Exception">Any other exception on target invocation.</exception>

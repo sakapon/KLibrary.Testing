@@ -32,6 +32,7 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void CreateAreEqual_Delegate_10()
 		{
+			// struct also works.
 			(int, double) GetTuple() => (2, 3);
 
 			var test = TestHelper.CreateAreEqual((Func<(int, double)>)GetTuple);
@@ -70,11 +71,11 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
-		public void CreateCollectionsAreEqual_Func_1()
+		public void CreateAreEqual_Func_1_Collection()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateCollectionsAreEqual<int, double>(null));
+			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreEqual<int, double>(null));
 
-			var test = TestHelper.CreateCollectionsAreEqual<int, int>(count => Enumerable.Range(1, count));
+			var test = TestHelper.CreateAreEqual<int, IEnumerable<int>>(count => Enumerable.Range(1, count));
 			Assert.ThrowsException<AssertFailedException>(() => test(3, new[] { 0, 1, 2 }));
 
 			Assert.ThrowsException<ArgumentOutOfRangeException>(() => test(-1, null));
