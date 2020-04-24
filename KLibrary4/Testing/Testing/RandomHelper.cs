@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace KLibrary.Testing
 {
+	/// <summary>
+	/// Provides a set of methods for random numbers.
+	/// </summary>
 	public static class RandomHelper
 	{
 		public static Random Random { get; } = new Random();
@@ -13,7 +16,13 @@ namespace KLibrary.Testing
 		public static double NextDouble(double minValue, double maxValue) =>
 			minValue + (maxValue - minValue) * Random.NextDouble();
 
+		/// <summary>
+		/// Generates an array of random integral numbers within the range [0, <paramref name="count"/>).
+		/// </summary>
+		/// <param name="count">The number of elements to generate.</param>
+		/// <returns>An array that contains random integral numbers.</returns>
 		public static int[] CreateData(int count) => CreateData(count, 0, count);
+
 		public static int[] CreateData(int count, int minValue, int maxValue)
 		{
 			var a = new int[count];
@@ -43,6 +52,12 @@ namespace KLibrary.Testing
 			}
 		}
 
+		/// <summary>
+		/// Generates an shuffled array of integral numbers within a specified range.
+		/// </summary>
+		/// <param name="start">The minimum value in the sequence.</param>
+		/// <param name="count">The number of integers to generate.</param>
+		/// <returns>An shuffled array that contains a range of sequential integral numbers.</returns>
 		public static int[] ShuffleRange(int start, int count) => Enumerable.Range(start, count).Shuffle().ToArray();
 	}
 }

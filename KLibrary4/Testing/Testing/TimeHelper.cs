@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace KLibrary.Testing
 {
+	/// <summary>
+	/// Provides a set of methods to measure time for execution.
+	/// </summary>
 	public static class TimeHelper
 	{
 		public static void Measure(Action action, string category = null)
