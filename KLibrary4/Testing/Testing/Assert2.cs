@@ -10,6 +10,17 @@ namespace KLibrary.Testing
 	/// </summary>
 	public static class Assert2
 	{
+		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source?.Cast<object>()?.ToArray();
+
+		/// <summary>
+		/// Tests whether the specified values are equal and throws an exception if the two values are not equal,
+		/// by calling the <see cref="CollectionAssert.AreEqual"/> method if the two values are <see cref="IEnumerable"/>;
+		/// the <see cref="Assert.AreEqual&lt;T&gt;"/> method otherwise.
+		/// </summary>
+		/// <typeparam name="T">The type of values to compare.</typeparam>
+		/// <param name="expected">The value the test expects.</param>
+		/// <param name="actual">The value produced by the code under test.</param>
+		/// <exception cref="AssertFailedException">Thrown if <paramref name="expected"/> is not equal to <paramref name="actual"/>.</exception>
 		public static void AreEqual<T>(T expected, T actual)
 		{
 			if (expected is IEnumerable e && actual is IEnumerable a)
@@ -18,8 +29,15 @@ namespace KLibrary.Testing
 				Assert.AreEqual(expected, actual);
 		}
 
-		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source?.Cast<object>()?.ToArray();
-
+		/// <summary>
+		/// Tests whether the specified values are nearly equal and throws an exception if the two values are not nearly equal.
+		/// <see cref="float"/>, <see cref="double"/> and <see cref="decimal"/> are supported.
+		/// </summary>
+		/// <typeparam name="T">The type of values to compare.</typeparam>
+		/// <param name="expected">The value the test expects.</param>
+		/// <param name="actual">The value produced by the code under test.</param>
+		/// <param name="digits">The digits that represent the absolute error.</param>
+		/// <exception cref="AssertFailedException">Thrown if <paramref name="expected"/> is not nearly equal to <paramref name="actual"/>.</exception>
 		public static void AreNearlyEqual<T>(T expected, T actual, int digits = -12)
 		{
 			if (expected is float ef && actual is float af)
@@ -32,7 +50,6 @@ namespace KLibrary.Testing
 				throw new AssertFailedException("The types are invalid.");
 		}
 
-		// absolute error.
 		public static void AreNearlyEqual(float expected, float actual, int digits = -6)
 		{
 			if (float.IsNaN(expected) || float.IsInfinity(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "<expected> is not a finite value.");
@@ -66,6 +83,13 @@ namespace KLibrary.Testing
 			if (obj is T) throw new AssertFailedException($"The object is {typeof(T)}.");
 		}
 
+		/// <summary>
+		/// Tests whether the specified delegate action throws an exception of the specified type (or the derived type).
+		/// </summary>
+		/// <typeparam name="T">The type of the exception expected to be thrown.</typeparam>
+		/// <param name="action">The delegate to be tested and which is expected to throw exception.</param>
+		/// <returns>The exception that was thrown.</returns>
+		/// <exception cref="AssertFailedException">Thrown if <paramref name="action"/> does not throw an exception of type <typeparamref name="T"/>.</exception>
 		public static T Throws<T>(Action action) where T : Exception
 		{
 			if (action == null) throw new ArgumentNullException(nameof(action));
