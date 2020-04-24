@@ -131,7 +131,7 @@ namespace UnitTest.Testing
 			var actual = D9(20);
 			Console.WriteLine(Assert.ThrowsException<AssertFailedException>(() => Assert.AreEqual(expected, actual)).Message);
 			Assert2.AreNearlyEqual(expected, actual);
-			// They are equal in the decimal.
+			// They are exactly equal in the decimal.
 			Assert2.AreNearlyEqual(expected, actual, -30);
 
 			var actual12 = D9(12);
@@ -143,7 +143,7 @@ namespace UnitTest.Testing
 		public void AreNearlyEqual_Special()
 		{
 			var pi = Math.Sqrt(12) * Enumerable.Range(0, 40).Sum(i => 1 / ((2 * i + 1) * Math.Pow(-3, i)));
-			// They are equal in the decimal.
+			// They are exactly equal in the decimal.
 			Assert2.AreNearlyEqual(Math.PI, pi, -30);
 
 			var e = Math.Pow(1.00000001, 100000000);

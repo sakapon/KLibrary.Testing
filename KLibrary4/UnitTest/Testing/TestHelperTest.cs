@@ -11,18 +11,6 @@ namespace UnitTest.Testing
 	public class TestHelperTest
 	{
 		[TestMethod]
-		public void CreateAreEqual_Func_2()
-		{
-			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreEqual<double, int, double>(null));
-
-			var test = TestHelper.CreateAreEqual<double, int, double>(Math.Round);
-			Assert.ThrowsException<AssertFailedException>(() => test(1.23, 1, 0));
-
-			Assert.ThrowsException<ArgumentOutOfRangeException>(() => test(1.23, -1, 0));
-			test(1.23, 1, 1.2);
-		}
-
-		[TestMethod]
 		public void CreateAreEqual_Delegate_00()
 		{
 			var test = TestHelper.CreateAreEqual((Action)(() => Console.WriteLine("abc")));
@@ -56,6 +44,18 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
+		public void CreateAreEqual_Func_2()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreEqual<double, int, double>(null));
+
+			var test = TestHelper.CreateAreEqual<double, int, double>(Math.Round);
+			Assert.ThrowsException<AssertFailedException>(() => test(1.23, 1, 0));
+
+			Assert.ThrowsException<ArgumentOutOfRangeException>(() => test(1.23, -1, 0));
+			test(1.23, 1, 1.2);
+		}
+
+		[TestMethod]
 		public void CreateAreEqual_Delegate_Collection()
 		{
 			IEnumerable GetData()
@@ -80,6 +80,18 @@ namespace UnitTest.Testing
 
 			Assert.ThrowsException<ArgumentOutOfRangeException>(() => test(-1, null));
 			test(3, new[] { 1, 2, 3 });
+		}
+
+		[TestMethod]
+		public void CreateAreNearlyEqual_Delegate_10()
+		{
+			double GetPi() => Math.PI;
+
+			var test = TestHelper.CreateAreNearlyEqual((Func<double>)GetPi, -2);
+			test(null, 3.15);
+
+			var test2 = TestHelper.CreateAreNearlyEqual((Func<double>)GetPi, -3);
+			Assert.ThrowsException<AssertFailedException>(() => test2(null, 3.15));
 		}
 	}
 }
