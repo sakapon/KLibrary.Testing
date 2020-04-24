@@ -56,7 +56,7 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
-		public void CreateAreEqual_Delegate_Collection()
+		public void CreateAreEqual_Delegate_10_Collection()
 		{
 			IEnumerable GetData()
 			{
@@ -85,13 +85,16 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void CreateAreNearlyEqual_Delegate_10()
 		{
-			double GetPi() => Math.PI;
+			decimal GetPi() => (decimal)Math.PI;
 
-			var test = TestHelper.CreateAreNearlyEqual((Func<double>)GetPi, -2);
-			test(null, 3.15);
+			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreNearlyEqual(null));
 
-			var test2 = TestHelper.CreateAreNearlyEqual((Func<double>)GetPi, -3);
-			Assert.ThrowsException<AssertFailedException>(() => test2(null, 3.15));
+			var test = TestHelper.CreateAreNearlyEqual((Func<decimal>)GetPi, -2);
+			Assert.ThrowsException<AssertFailedException>(() => test(null, 3.15));
+			test(null, 3.15M);
+
+			var test2 = TestHelper.CreateAreNearlyEqual((Func<decimal>)GetPi, -3);
+			Assert.ThrowsException<AssertFailedException>(() => test2(null, 3.15M));
 		}
 	}
 }
