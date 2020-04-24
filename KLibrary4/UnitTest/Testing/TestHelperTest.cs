@@ -96,5 +96,40 @@ namespace UnitTest.Testing
 			var test2 = TestHelper.CreateAreNearlyEqual((Func<decimal>)GetPi, -3);
 			Assert.ThrowsException<AssertFailedException>(() => test2(null, 3.15M));
 		}
+
+		[TestMethod]
+		public void CreateAreNearlyEqual_Func_1()
+		{
+			var test = TestHelper.CreateAreNearlyEqual((float x) => -x, -6);
+			Assert.ThrowsException<AssertFailedException>(() => test((float)Math.Sqrt(2), -1.4142F));
+			test((float)Math.Sqrt(2), -1.414214F);
+		}
+
+		[TestMethod]
+		public void CreateAreNearlyEqual_Func_2()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreNearlyEqual<double, int, double>(null));
+
+			var test = TestHelper.CreateAreNearlyEqual((int a, int b) => a + b);
+			Assert.ThrowsException<AssertFailedException>(() => test(2, 3, 5));
+		}
+
+		[TestMethod]
+		public void CreateAreNearlyEqual_Func_3()
+		{
+			double AngleA(double a, double b, double c)
+			{
+				var angle = Math.Acos((b * b + c * c - a * a) / (2 * b * c));
+				if (double.IsNaN(angle)) throw new ArgumentException();
+				return angle;
+			}
+
+			var test = TestHelper.CreateAreNearlyEqual<double, double, double, double>(AngleA);
+			Assert.ThrowsException<AssertFailedException>(() => test(3, 3, 3, Math.PI));
+
+			Assert.ThrowsException<ArgumentException>(() => test(7, 3, 3, Math.PI));
+			test(3, 3, 3, Math.PI / 3);
+			test(6, 3, 3, Math.PI);
+		}
 	}
 }
