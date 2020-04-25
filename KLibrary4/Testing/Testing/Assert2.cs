@@ -13,7 +13,7 @@ namespace KLibrary.Testing
 		static ICollection AsCollection(this IEnumerable source) => source is ICollection c ? c : source?.Cast<object>()?.ToArray();
 
 		/// <summary>
-		/// Tests whether the specified values are equal and throws an exception if the two values are not equal,
+		/// Tests whether the specified values are equal,
 		/// by calling the <see cref="CollectionAssert.AreEqual"/> method if the two values are <see cref="IEnumerable"/>;
 		/// the <see cref="Assert.AreEqual&lt;T&gt;"/> method otherwise.
 		/// </summary>
@@ -30,14 +30,14 @@ namespace KLibrary.Testing
 		}
 
 		/// <summary>
-		/// Tests whether the specified values are nearly equal and throws an exception if the two values are not nearly equal.
+		/// Tests whether the specified values are nearly equal.
 		/// <see cref="float"/>, <see cref="double"/> and <see cref="decimal"/> are supported.
 		/// </summary>
 		/// <typeparam name="T">The type of values to compare.</typeparam>
 		/// <param name="expected">The value the test expects.</param>
 		/// <param name="actual">The value produced by the code under test.</param>
-		/// <param name="digits">The digits that represent the absolute error.</param>
-		/// <exception cref="AssertFailedException">Thrown if <paramref name="expected"/> is not nearly equal to <paramref name="actual"/>.</exception>
+		/// <param name="digits">The digits that represent the upper bound of the absolute error between the two values.</param>
+		/// <exception cref="AssertFailedException">Thrown if the two values are not of the supported type or not nearly equal.</exception>
 		public static void AreNearlyEqual<T>(T expected, T actual, int digits = -12)
 		{
 			if (expected is float ef && actual is float af)
@@ -89,7 +89,8 @@ namespace KLibrary.Testing
 		/// <typeparam name="T">The type of the exception expected to be thrown.</typeparam>
 		/// <param name="action">The delegate to be tested and which is expected to throw exception.</param>
 		/// <returns>The exception that was thrown.</returns>
-		/// <exception cref="AssertFailedException">Thrown if <paramref name="action"/> does not throw an exception of type <typeparamref name="T"/>.</exception>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="AssertFailedException">Thrown if <paramref name="action"/> does not throw an exception of the type <typeparamref name="T"/>.</exception>
 		public static T Throws<T>(Action action) where T : Exception
 		{
 			if (action == null) throw new ArgumentNullException(nameof(action));
