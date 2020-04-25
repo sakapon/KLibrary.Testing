@@ -8,52 +8,52 @@ namespace KLibrary.Testing
 	/// </summary>
 	public static class TestHelper
 	{
-		public static Action<object[], object> CreateAreEqual(Delegate target)
+		public static Action<object[], object> CreateAreEqual(Delegate func)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (args, expected) => Assert2.AreEqual(expected, target.Invoke(args));
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (args, expected) => Assert2.AreEqual(expected, func.Invoke(args));
 		}
 
-		public static Action<T, TResult> CreateAreEqual<T, TResult>(Func<T, TResult> target)
+		public static Action<T, TResult> CreateAreEqual<T, TResult>(Func<T, TResult> func)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg, expected) => Assert2.AreEqual(expected, target(arg));
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (arg, expected) => Assert2.AreEqual(expected, func(arg));
 		}
 
-		public static Action<T1, T2, TResult> CreateAreEqual<T1, T2, TResult>(Func<T1, T2, TResult> target)
+		public static Action<T1, T2, TResult> CreateAreEqual<T1, T2, TResult>(Func<T1, T2, TResult> func)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg1, arg2, expected) => Assert2.AreEqual(expected, target(arg1, arg2));
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (arg1, arg2, expected) => Assert2.AreEqual(expected, func(arg1, arg2));
 		}
 
-		public static Action<T1, T2, T3, TResult> CreateAreEqual<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> target)
+		public static Action<T1, T2, T3, TResult> CreateAreEqual<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> func)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg1, arg2, arg3, expected) => Assert2.AreEqual(expected, target(arg1, arg2, arg3));
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (arg1, arg2, arg3, expected) => Assert2.AreEqual(expected, func(arg1, arg2, arg3));
 		}
 
-		public static Action<object[], object> CreateAreNearlyEqual(Delegate target, int digits = -12)
+		public static Action<object[], object> CreateAreNearlyEqual(Delegate func, int digits = -12)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (args, expected) => Assert2.AreNearlyEqual(expected, target.Invoke(args), digits);
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (args, expected) => Assert2.AreNearlyEqual(expected, func.Invoke(args), digits);
 		}
 
-		public static Action<T, TResult> CreateAreNearlyEqual<T, TResult>(Func<T, TResult> target, int digits = -12)
+		public static Action<T, TResult> CreateAreNearlyEqual<T, TResult>(Func<T, TResult> func, int digits = -12)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg, expected) => Assert2.AreNearlyEqual(expected, target(arg), digits);
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (arg, expected) => Assert2.AreNearlyEqual(expected, func(arg), digits);
 		}
 
-		public static Action<T1, T2, TResult> CreateAreNearlyEqual<T1, T2, TResult>(Func<T1, T2, TResult> target, int digits = -12)
+		public static Action<T1, T2, TResult> CreateAreNearlyEqual<T1, T2, TResult>(Func<T1, T2, TResult> func, int digits = -12)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg1, arg2, expected) => Assert2.AreNearlyEqual(expected, target(arg1, arg2), digits);
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (arg1, arg2, expected) => Assert2.AreNearlyEqual(expected, func(arg1, arg2), digits);
 		}
 
-		public static Action<T1, T2, T3, TResult> CreateAreNearlyEqual<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> target, int digits = -12)
+		public static Action<T1, T2, T3, TResult> CreateAreNearlyEqual<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> func, int digits = -12)
 		{
-			if (target == null) throw new ArgumentNullException(nameof(target));
-			return (arg1, arg2, arg3, expected) => Assert2.AreNearlyEqual(expected, target(arg1, arg2, arg3), digits);
+			if (func == null) throw new ArgumentNullException(nameof(func));
+			return (arg1, arg2, arg3, expected) => Assert2.AreNearlyEqual(expected, func(arg1, arg2, arg3), digits);
 		}
 
 		/// <exception cref="ArgumentException">The method represented by the delegate is invoked on an object or a class that does not support it.</exception>
