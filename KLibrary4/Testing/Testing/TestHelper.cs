@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KLibrary.Testing
 {
@@ -11,6 +12,7 @@ namespace KLibrary.Testing
 		public static Action<object[], object> CreateAreEqual(Delegate func)
 		{
 			if (func == null) throw new ArgumentNullException(nameof(func));
+			if (func.Method.ReturnType == typeof(void)) throw new ArgumentException("The delegate must return a value, i.e. must be a Func.", nameof(func));
 			return (args, expected) => Assert2.AreEqual(expected, func.Invoke(args));
 		}
 
@@ -35,6 +37,7 @@ namespace KLibrary.Testing
 		public static Action<object[], object> CreateAreNearlyEqual(Delegate func, int digits = -12)
 		{
 			if (func == null) throw new ArgumentNullException(nameof(func));
+			if (func.Method.ReturnType == typeof(void)) throw new ArgumentException("The delegate must return a value, i.e. must be a Func.", nameof(func));
 			return (args, expected) => Assert2.AreNearlyEqual(expected, func.Invoke(args), digits);
 		}
 

@@ -13,8 +13,8 @@ namespace UnitTest.Testing
 		[TestMethod]
 		public void CreateAreEqual_Delegate_00()
 		{
-			var test = TestHelper.CreateAreEqual((Action)(() => Console.WriteLine("abc")));
-			test(null, null);
+			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreEqual(null));
+			Assert.ThrowsException<ArgumentException>(() => TestHelper.CreateAreEqual((Action)(() => Console.WriteLine("abc"))));
 		}
 
 		[TestMethod]
@@ -31,8 +31,6 @@ namespace UnitTest.Testing
 		public void CreateAreEqual_Delegate_14()
 		{
 			int IndexOf(string s, char value, int startIndex, int count) => s?.IndexOf(value, startIndex, count) ?? throw new ArgumentNullException(nameof(s));
-
-			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreEqual(null));
 
 			var test = TestHelper.CreateAreEqual((Func<string, char, int, int, int>)IndexOf);
 			Assert.ThrowsException<ArgumentException>(() => test(new object[] { "abcde", "", 0, 0 }, null));
@@ -83,11 +81,16 @@ namespace UnitTest.Testing
 		}
 
 		[TestMethod]
+		public void CreateAreNearlyEqual_Delegate_00()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreNearlyEqual(null));
+			Assert.ThrowsException<ArgumentException>(() => TestHelper.CreateAreNearlyEqual((Action<bool>)Console.WriteLine));
+		}
+
+		[TestMethod]
 		public void CreateAreNearlyEqual_Delegate_10()
 		{
 			decimal GetPi() => (decimal)Math.PI;
-
-			Assert.ThrowsException<ArgumentNullException>(() => TestHelper.CreateAreNearlyEqual(null));
 
 			var test = TestHelper.CreateAreNearlyEqual((Func<decimal>)GetPi, -2);
 			Assert.ThrowsException<AssertFailedException>(() => test(null, 3.15));
