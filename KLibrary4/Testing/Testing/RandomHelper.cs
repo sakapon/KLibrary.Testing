@@ -21,6 +21,7 @@ namespace KLibrary.Testing
 		/// </summary>
 		/// <param name="count">The number of elements to generate.</param>
 		/// <returns>An array that contains random integral numbers.</returns>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="count"/> is less than 0.</exception>
 		public static int[] CreateData(int count) => CreateData(count, 0, count);
 
 		public static int[] CreateData(int count, int minValue, int maxValue)
@@ -53,11 +54,12 @@ namespace KLibrary.Testing
 		}
 
 		/// <summary>
-		/// Generates an shuffled array of integral numbers within a specified range.
+		/// Generates a shuffled array of integral numbers within the specified range.
 		/// </summary>
 		/// <param name="start">The minimum value in the sequence.</param>
 		/// <param name="count">The number of integers to generate.</param>
-		/// <returns>An shuffled array that contains a range of sequential integral numbers.</returns>
+		/// <returns>A shuffled array that contains a range of sequential integral numbers.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">count is less than 0. -or- start + count - 1 is larger than <see cref="int.MaxValue"/>.</exception>
 		public static int[] ShuffleRange(int start, int count) => Enumerable.Range(start, count).Shuffle().ToArray();
 	}
 }
