@@ -9,12 +9,12 @@
     <Title>KLibrary.Testing</Title>
     <AssemblyTitle>KLibrary.Testing</AssemblyTitle>
     <Product>KLibrary</Product>
-    <Description>A library for unit testing.</Description>
+    <Description>A library for unit testing using MSTest.</Description>
     <Authors>Keiho Sakapon</Authors>
     <Copyright>© 2020 Keiho Sakapon</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/sakapon/KLibrary.Testing</PackageProjectUrl>
-    <PackageTags>Unit Testing</PackageTags>
+    <PackageTags>Test Testing Unit-Test MSTest</PackageTags>
     <PackageReleaseNotes>The first release.</PackageReleaseNotes>
   </PropertyGroup>
 
