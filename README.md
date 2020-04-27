@@ -3,7 +3,18 @@
 [![NuGet](https://img.shields.io/nuget/v/KLibrary.Testing.svg)](https://www.nuget.org/packages/KLibrary.Testing/)
 [![NuGet](https://img.shields.io/nuget/dt/KLibrary.Testing.svg)](https://www.nuget.org/packages/KLibrary.Testing/)
 
-A library for unit testing.
+A library for unit testing using MSTest.
+
+## Setup
+KLibrary.Testing is published to [NuGet Gallery](https://www.nuget.org/packages/KLibrary.Testing/). Install the library by NuGet.
+
+## Features
+- Extends the Assert class
+  - AreNearlyEqual, etc.
+- Creates a test method to be simplified
+  - for AreEqual and AreNearlyEqual
+- Creates random data
+- Measures execution time
 
 ## Target Frameworks
 - .NET Standard 2.0
