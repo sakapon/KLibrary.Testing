@@ -12,7 +12,7 @@ KLibrary.Testing is published to [NuGet Gallery](https://www.nuget.org/packages/
 - Extends the Assert class
   - AreNearlyEqual, etc.
 - Creates a test method to be simplified
-  - for AreEqual and AreNearlyEqual
+  - Wrapping AreEqual or AreNearlyEqual
 - Creates random data
 - Measures execution time
 
@@ -24,11 +24,24 @@ using KLibrary.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 ```
 
-### AreNearlyEqual method
+### AreNearlyEqual Method
 Asserts the specified values are nearly equal, with specifying the upper bound of the absolute error `10^d`.
 ```c#
 Assert2.AreNearlyEqual(3.14, Math.PI, -2);
 Assert2.AreNearlyEqual(Math.E, Math.Pow(1.0000001, 10000000), -6);
+```
+
+### Test Method Wrapping
+Creates a function from the function to be tested.
+```c#
+// Before:
+Assert.AreEqual(81, Math.Pow(3, 4));
+Assert.AreEqual(64, Math.Pow(4, 3));
+
+// After:
+var test = TestHelper.CreateAreEqual<double, double, double>(Math.Pow);
+test(3, 4, 81);
+test(4, 3, 64);
 ```
 
 ## Target Frameworks
